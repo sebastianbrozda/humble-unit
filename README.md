@@ -8,11 +8,11 @@ using
 
 To use this micro-"framework" you have to stick to the rules:
 
-Testing class should inherit from Test::HumbleUnit::TestCase
-Test methods must start with "test_" prefix
-Method "setup" runs before each test
-Method "teardown" runs after each test
-Both this methods aren't required to run
+* Testing class should inherit from Test::HumbleUnit::TestCase
+* Test methods must start with "test_" prefix
+* Method "setup" runs before each test
+* Method "teardown" runs after each test
+* Both this methods aren't required to run
 
 example
 ===========
