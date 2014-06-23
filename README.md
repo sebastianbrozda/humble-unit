@@ -16,7 +16,7 @@ Both this methods aren't required to run
 
 example
 ===========
-
+```ruby
 class CalculatorTests < Test::HumbleUnit::TestCase
   # executes before each test
   def setup
@@ -36,6 +36,6 @@ class CalculatorTests < Test::HumbleUnit::TestCase
     expect(5).to(be_less_or_equal(5))       # pass
   end
 end
-
+```
 
 
