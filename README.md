@@ -40,6 +40,6 @@ end
 
 running
 ===================
-# ruby filename.rb
+ruby filename.rb
 
 
