@@ -17,7 +17,7 @@ To use this micro-"framework" you have to stick to the rules:
 example
 ===========
 ```ruby
-class CalculatorTests < Test::HumbleUnit::TestCase
+class ExampleTests < Test::HumbleUnit::TestCase
   # executes before each test
   def setup
     p "setup"
