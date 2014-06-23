@@ -38,4 +38,8 @@ class CalculatorTests < Test::HumbleUnit::TestCase
 end
 ```
 
+running
+===================
+# ruby filename.rb
+
 
