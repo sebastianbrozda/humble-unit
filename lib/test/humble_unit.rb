@@ -16,7 +16,7 @@ module Test
     end
 
     module Runners
-      autoload :FileRunner, 'test/humble_unit/runners/file_runner'
+      autoload :TestRunner, 'test/humble_unit/runners/test_runner'
     end
 
     module Outputs
@@ -32,7 +32,7 @@ module Test
     options = Core::Parser.parse(ARGV)
     output = Outputs::Factory.instance.create_from options.output
 
-    TestCase.send(:extend, Test::HumbleUnit::Runners::FileRunner)
+    TestCase.send(:extend, Test::HumbleUnit::Runners::TestRunner)
     TestCase.run_all_tests(output)
   end
 end
