@@ -8,7 +8,7 @@ module Test
         end
 
         def to result
-          raise Errors::AssertionError, "expected #{@expected_val} to #{@assertion} but it was #{@current_val}" if !result
+          raise Errors::AssertionError, error_message if !result
         end
 
         def not_to result
@@ -52,14 +52,20 @@ module Test
           end
           true
         end
+
+        private
+        def error_message
+          "expected #{@expected_val} to #{@assertion} but it was #{@current_val}"
+        end
+
       end
 
       module Assertions
         def self.before(*method_names, &before_block)
           method_names.each do |name|
             method = instance_method name
-            define_method name do |*args, &block|
 
+            define_method name do |*args, &block|
               instance_exec [args[0], name], &before_block
               method.bind(self).(*args, &block)
             end

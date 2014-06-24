@@ -8,7 +8,6 @@ class Calculator
   end
 end
 
-
 class CalculatorTests1 < Test::HumbleUnit::TestCase
   def setup
     @calc = Calculator.new

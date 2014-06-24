@@ -2,6 +2,7 @@ humble-unit
 ===========
 
 very basic testing framework
+DO NOT USE IT IN PRODUCTION! It's just an experiment.
 
 using
 ===========
@@ -40,6 +41,12 @@ end
 
 running
 ===================
+raw console output:
 ruby filename.rb
 
+with defined output:
+ruby filename.rb -o [console|file|html]
+
+run all tests from dictionary:
+rake test:all["examples"]
 

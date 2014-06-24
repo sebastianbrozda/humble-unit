@@ -16,14 +16,25 @@ module Test
         end
 
         public
+        def messages
+          @messages ||= []
+        end
+
         def call_test_methods
+          messages.clear
+
           test_methods_to_call.each do |method|
+            message = Core::OutputMessage.new method(method)
+
             begin
               self.send(setup_method) if setup_method
               self.send(method)
               self.send(teardown_method) if teardown_method
-            rescue Errors::AssertionError => ex
-              p "ASSERTION ERROR: #{ex.message} in #{method}\r\n#{caller(0).join("\n")} "
+              message.success = true
+            rescue Errors::AssertionError => e
+              message.error = e.message
+            ensure
+              messages << message
             end
           end
         end
