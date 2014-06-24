@@ -30,7 +30,7 @@ module Test
               self.send(setup_method) if setup_method
               self.send(method)
               self.send(teardown_method) if teardown_method
-              message.success = true
+              message.pass = true
             rescue Errors::AssertionError => e
               message.error = e.message
             ensure

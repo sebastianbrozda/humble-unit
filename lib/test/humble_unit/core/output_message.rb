@@ -2,21 +2,21 @@ module Test
   module HumbleUnit
     module Core
       class OutputMessage
-        attr_writer :success, :error
+        attr_writer :pass, :error
         attr_reader :method_name
 
         def initialize(method)
           @method_name = method.name
           @source_location = method.source_location
-          @success = false
+          @pass = false
         end
 
         def status
-          @success ? 'SUCCESS' : 'FAIL'
+          @pass ? 'PASS' : 'FAIL'
         end
 
         def error
-          @success ? "" : "!#{@error}!"
+          @pass ? "" : "!#{@error}!"
         end
 
         def source_location_file
