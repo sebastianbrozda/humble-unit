@@ -1,7 +1,7 @@
 module Test
   module HumbleUnit
-    module Mixins
-      module TestMethodCaller
+    module Runners
+      module TestMethodRunner
         private
         def setup_method
           @setup_method ||= methods.select { |m| m.to_s == "setup" }.first

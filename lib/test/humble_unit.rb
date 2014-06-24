@@ -11,11 +11,11 @@ module Test
     end
 
     module Mixins
-      autoload :TestMethodCaller, 'test/humble_unit/mixins/test_method_caller'
       autoload :Assertions, 'test/humble_unit/mixins/assertions'
     end
 
     module Runners
+      autoload :TestMethodRunner, 'test/humble_unit/runners/test_method_runner'
       autoload :TestRunner, 'test/humble_unit/runners/test_runner'
     end
 
