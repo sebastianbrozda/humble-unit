@@ -1,7 +1,7 @@
 module Test
   module HumbleUnit
     module Outputs
-      class File < Base
+      class HtmlOutput < BaseOutput
 
       end
     end

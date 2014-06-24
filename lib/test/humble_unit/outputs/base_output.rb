@@ -1,7 +1,7 @@
 module Test
   module HumbleUnit
     module Outputs
-      class Base
+      class BaseOutput
         def flush(messages)
           raise 'not implemented'
         end

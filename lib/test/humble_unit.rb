@@ -20,17 +20,17 @@ module Test
     end
 
     module Outputs
-      autoload :Factory, 'test/humble_unit/outputs/factory'
-      autoload :Base, 'test/humble_unit/outputs/base'
-      autoload :Console, 'test/humble_unit/outputs/console'
-      autoload :File, 'test/humble_unit/outputs/file'
-      autoload :Html, 'test/humble_unit/outputs/html'
+      autoload :BaseOutput, 'test/humble_unit/outputs/base_output'
+      autoload :FactoryOutput, 'test/humble_unit/outputs/factory_output'
+      autoload :ConsoleOutput, 'test/humble_unit/outputs/console_output'
+      autoload :FileOutput, 'test/humble_unit/outputs/file_output'
+      autoload :HtmlOutput, 'test/humble_unit/outputs/html_output'
     end
 
     autoload :TestCase, 'test/humble_unit/test_case'
 
     options = Core::Parser.parse(ARGV)
-    output = Outputs::Factory.instance.create_from options.output
+    output = Outputs::FactoryOutput.instance.create_from options.output
 
     TestCase.send(:extend, Test::HumbleUnit::Runners::TestRunner)
     TestCase.run_all_tests(output)
