@@ -14,8 +14,18 @@ module Test
 
         DIRECTORY_NAME = "humble_html_reports"
 
-        def build_html(messages)
-          @content = <<-HTML_HEADER
+        class HtmlBuilder
+          attr_reader :html
+
+          def build(messages)
+            build_header
+            build_table messages
+            build_footer
+          end
+
+          private
+          def build_header
+            @html = <<-HTML_HEADER
           <html>
             <head>
               <title>Humble Unit Report</title>
@@ -25,8 +35,17 @@ module Test
                 .fail { background-color: red; }
             </style>
             <body>
-          HTML_HEADER
-          @content += <<-HTML_TABLE_HEADER
+            HTML_HEADER
+          end
+
+          def build_table(messages)
+            build_table_header
+            build_table_body messages
+            build_table_footer
+          end
+
+          def build_table_header
+            @html += <<-HTML_TABLE_HEADER
             <table border="1">
               <thead>
                 <tr>
@@ -36,29 +55,44 @@ module Test
                   <th>Error msg</th>
                 </tr>
               </thead>
-          HTML_TABLE_HEADER
-          messages.each do |m|
-            @content += <<-HTML_TABLE_ROW
+            HTML_TABLE_HEADER
+          end
+
+          def build_table_body(messages)
+            messages.each do |m|
+              @html += <<-HTML_TABLE_ROW
               <tr class="#{css_row_class(m)}">
                 <td>#{m.status}</td>
                 <td>#{m.method_name}</td>
                 <td>#{m.source_location_file}:#{m.source_location_line_number}</td>
                 <td>#{m.error}</td>
               </tr>
-            HTML_TABLE_ROW
+              HTML_TABLE_ROW
+            end
           end
-          @content += <<-HTML_TABLE_FOOTER
-            </table>
-          HTML_TABLE_FOOTER
 
-          @content += <<-HTML_FOOTER
+          def css_row_class(m)
+            m.pass ? 'pass' : 'fail'
+          end
+
+          def build_table_footer
+            @html += <<-HTML_TABLE_FOOTER
+            </table>
+            HTML_TABLE_FOOTER
+          end
+
+          def build_footer
+            @html += <<-HTML_FOOTER
             </body>
           </html>
-          HTML_FOOTER
+            HTML_FOOTER
+          end
         end
 
-        def css_row_class(m)
-          m.pass ? 'pass' : 'fail'
+        def build_html(messages)
+          builder = HtmlBuilder.new
+          builder.build messages
+          @html = builder.html
         end
 
         def create_report_directory
@@ -69,7 +103,7 @@ module Test
 
         def write_content_to_file
           File.open(filename, "w") do |file|
-            file.write(@content)
+            file.write(@html)
           end
         end
 
