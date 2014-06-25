@@ -20,7 +20,7 @@ module Test
           @messages ||= []
         end
 
-        def call_test_methods
+        def run_test_methods
           messages.clear
 
           test_methods_to_call.each do |method|

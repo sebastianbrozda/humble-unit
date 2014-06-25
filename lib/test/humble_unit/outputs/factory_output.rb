@@ -10,7 +10,7 @@ module Test
             when '', nil, /console/im
               Outputs::ConsoleOutput.new
             when /file/im
-              Outputs::File.new
+              Outputs::FileOutput.new
             when /html/im
               Outputs::HtmlOutput.new
             else

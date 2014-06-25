@@ -17,7 +17,7 @@ module Test
           get_all_testing_classes.each do |testing_class|
             testing_class.send(:include, Test::HumbleUnit::Runners::TestMethodRunner)
             instance = testing_class.new
-            instance.call_test_methods
+            instance.run_test_methods
             output.flush instance.messages
           end
         end
