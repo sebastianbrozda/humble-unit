@@ -2,8 +2,9 @@ module Test
   module HumbleUnit
     module Core
       class OutputMessage
-        attr_writer :pass, :error
+        attr_writer :error
         attr_reader :method_name
+        attr_accessor :pass
 
         def initialize(method)
           @method_name = method.name
