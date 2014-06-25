@@ -5,9 +5,9 @@ module Test
         require 'fileutils'
 
         def flush(messages)
-          build_content(messages)
+          content = build_content(messages)
           create_report_directory
-          write_content_to_file
+          write_content_to_file content
         end
 
         private
@@ -15,10 +15,11 @@ module Test
         DIRECTORY_NAME = "humble_file_reports"
 
         def build_content(messages)
-          @content = ''
+          content = ''
           messages.each do |m|
-            @content += "\r\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
+            content += "\r\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
           end
+          content
         end
 
         def create_report_directory
@@ -27,9 +28,9 @@ module Test
           end
         end
 
-        def write_content_to_file
+        def write_content_to_file content
           File.open(filename, "w") do |file|
-            file.write(@content)
+            file.write(content)
           end
         end
 

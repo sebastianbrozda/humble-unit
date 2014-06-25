@@ -5,9 +5,9 @@ module Test
         require 'fileutils'
 
         def flush(messages)
-          build_html(messages)
+          html = build_html(messages)
           create_report_directory
-          write_content_to_file
+          write_content_to_file html
         end
 
         private
@@ -92,7 +92,7 @@ module Test
         def build_html(messages)
           builder = HtmlBuilder.new
           builder.build messages
-          @html = builder.html
+          builder.html
         end
 
         def create_report_directory
@@ -101,9 +101,9 @@ module Test
           end
         end
 
-        def write_content_to_file
+        def write_content_to_file html
           File.open(filename, "w") do |file|
-            file.write(@html)
+            file.write(html)
           end
         end
 
