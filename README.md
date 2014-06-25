@@ -49,5 +49,9 @@ with defined output:
 ruby filename.rb -o [console|file|html]
 
 run all tests from dictionary:
+
 rake test:all["examples"]
+
+rake test:all["examples", output_type] => rake test:all["examples", "html"]
+
 

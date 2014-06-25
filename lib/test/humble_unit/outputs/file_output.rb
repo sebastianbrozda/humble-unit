@@ -35,7 +35,7 @@ module Test
         end
 
         def filename
-          File.join(DIRECTORY_NAME, "humble_report_#{DateTime.now.strftime("%Y%m%d_%H%M%S")}.txt")
+          File.join(DIRECTORY_NAME, "humble_report_#{DateTime.now.strftime("%Y%m%d_%H%M%S%3N")}.txt")
         end
       end
     end
