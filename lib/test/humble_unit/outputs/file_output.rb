@@ -4,8 +4,8 @@ module Test
       class FileOutput < BaseOutput
         require 'fileutils'
 
-        def flush(messages)
-          content = build_content(messages)
+        def flush(messages, stats)
+          content = build_content(messages, stats)
           create_report_directory
           write_content_to_file content
         end
@@ -14,12 +14,22 @@ module Test
 
         DIRECTORY_NAME = "humble_file_reports"
 
-        def build_content(messages)
+        def build_content(messages, stats)
+          content = build_messages messages
+          content += build_stats stats
+          content
+        end
+
+        def build_messages(messages)
           content = ''
           messages.each do |m|
-            content += "\r\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
+            content += "\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
           end
           content
+        end
+
+        def build_stats(stats)
+          "\nSTATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}"
         end
 
         def create_report_directory

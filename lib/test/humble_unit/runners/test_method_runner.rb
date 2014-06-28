@@ -20,6 +20,10 @@ module Test
           @messages ||= []
         end
 
+        def stats
+          @stats ||= Core::Statistics.new
+        end
+
         def run_test_methods
           messages.clear
 
@@ -31,12 +35,15 @@ module Test
               self.send(method)
               self.send(teardown_method) if teardown_method
               message.pass = true
+              stats.increment_passed
             rescue Errors::AssertionError => e
               message.error = e.message
+              stats.increment_failed
             ensure
               messages << message
             end
           end
+
         end
       end
     end

@@ -4,6 +4,7 @@ module Test
     module Core
       autoload :Parser, 'test/humble_unit/core/option_parser'
       autoload :OutputMessage, 'test/humble_unit/core/output_message'
+      autoload :Statistics, 'test/humble_unit/core/statistics'
     end
 
     module Errors

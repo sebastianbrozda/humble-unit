@@ -4,8 +4,8 @@ module Test
       class HtmlOutput < BaseOutput
         require 'fileutils'
 
-        def flush(messages)
-          html = build_html(messages)
+        def flush(messages, stats)
+          html = build_html(messages, stats)
           create_report_directory
           write_content_to_file html
         end
@@ -17,13 +17,21 @@ module Test
         class HtmlBuilder
           attr_reader :html
 
-          def build(messages)
+          def build(messages, stats)
             build_header
             build_table messages
+            build_stats stats
             build_footer
           end
 
           private
+
+          def build_stats(stats)
+            @html += <<-HTML_STATS
+              <div class="#{HtmlBuilder.css_color_class(stats.all_passed?)}">STATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}</div>
+            HTML_STATS
+          end
+
           def build_header
             @html = <<-HTML_HEADER
           <html>
@@ -61,7 +69,7 @@ module Test
           def build_table_body(messages)
             messages.each do |m|
               @html += <<-HTML_TABLE_ROW
-              <tr class="#{css_row_class(m)}">
+              <tr class="#{HtmlBuilder.css_color_class(m.pass)}">
                 <td>#{m.status}</td>
                 <td>#{m.method_name}</td>
                 <td>#{m.source_location_file}:#{m.source_location_line_number}</td>
@@ -71,8 +79,8 @@ module Test
             end
           end
 
-          def css_row_class(m)
-            m.pass ? 'pass' : 'fail'
+          def self.css_color_class(pass)
+            pass ? 'pass' : 'fail'
           end
 
           def build_table_footer
@@ -89,9 +97,9 @@ module Test
           end
         end
 
-        def build_html(messages)
+        def build_html(messages, stats)
           builder = HtmlBuilder.new
-          builder.build messages
+          builder.build messages, stats
           builder.html
         end
 
