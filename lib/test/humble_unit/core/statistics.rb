@@ -22,6 +22,10 @@ module Test
           failed_count == 0
         end
 
+        def percentage
+          ((passed_count / number_of_tests.to_f) * 100).round 2
+        end
+
         def time
           Time.now
         end

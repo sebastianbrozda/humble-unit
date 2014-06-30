@@ -14,11 +14,23 @@ class CalculatorTests1 < Test::HumbleUnit::TestCase
   end
 
   def teardown
-    p "teardown"
+    #p "teardown"
   end
 
   def test_adding_1
     expect(@calc.add(2, 3)).to(be_eq(6))
+  end
+
+  def test_adding_2
+    expect(@calc.add(2, 3)).to(be_eq(5))
+  end
+
+  def test_adding_3
+    expect(@calc.add(2, 3)).to(be_eq(5))
+  end
+
+  def test_adding_4
+    expect(@calc.add(2, 3)).to(be_eq(5))
   end
 end
 
@@ -29,7 +41,7 @@ class CalculatorTests2 < Test::HumbleUnit::TestCase
   end
 
   def teardown
-    p "teardown"
+    #p "teardown"
   end
 
   def test_adding_2

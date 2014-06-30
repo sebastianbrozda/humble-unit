@@ -9,13 +9,44 @@ module Test
 
         private
         def flush_messages(test_class_name, messages)
-          order_messages(messages).each do |m|
-            p "#{test_class_name} - #{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
-          end
+          flush_header test_class_name
+          flush_content messages
         end
 
         def flush_stats(stats)
-          p "TESTING STATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}"
+          printf "%-10s: %-20s\n", "Test result", test_result(stats)
+          printf "%-10s: %-20s\n", "Passed", stats.passed_count
+          printf "%-10s: %-20s\n", "Failed", stats.failed_count
+          printf "%-10s: %-20s\n", "Tests", stats.number_of_tests
+          printf "%-10s: %-20s\n", "Run at", stats.time
+          printf "\n"
+        end
+
+        private
+
+        def flush_header test_class_name
+          printf "--=== Test class: #{test_class_name} ===---\n".to_brown
+          printf "%-10s %-20s %-51s %s\n", "Status", "Method name", "Error", "Source location"
+        end
+
+        def flush_content(messages)
+          order_messages(messages).each do |m|
+            printf("%-19s %-20s %-60s %s\n", status(m), m.method_name, error(m), "#{m.source_location_file}:#{m.source_location_line_number}")
+          end
+          printf "\n"
+        end
+
+        def status(m)
+          m.pass ? m.status.to_green : m.status.to_red
+        end
+
+        def error(m)
+          m.pass ? m.error.to_green : m.error.to_red
+        end
+
+        def test_result(stats)
+          percentage = "(#{stats.percentage}/100.0%)"
+          stats.all_passed? ? "YES #{percentage}".bg_green : "NO #{percentage}".bg_red
         end
       end
     end

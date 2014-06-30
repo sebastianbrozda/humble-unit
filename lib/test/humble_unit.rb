@@ -13,6 +13,7 @@ module Test
 
     module Mixins
       autoload :Assertions, 'test/humble_unit/mixins/assertions'
+      autoload :Colorize, 'test/humble_unit/mixins/colorize'
     end
 
     module Runners
@@ -30,6 +31,7 @@ module Test
 
     autoload :TestCase, 'test/humble_unit/test_case'
 
+    String.send(:include, Mixins::Colorize)
     options = Core::Parser.parse(ARGV)
     output = Outputs::FactoryOutput.instance.create_from options.output
 
