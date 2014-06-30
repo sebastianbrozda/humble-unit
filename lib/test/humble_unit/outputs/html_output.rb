@@ -4,22 +4,34 @@ module Test
       class HtmlOutput < BaseOutput
         require 'fileutils'
 
-        def flush(messages, stats)
-          html = build_html(messages, stats)
+        def flush(test_class_name, messages, stats)
+          html = build_header test_class_name
+          html += build_html(messages, stats)
           create_report_directory
-          write_content_to_file html
+          write_content_to_file test_class_name, html
         end
 
         private
 
-        DIRECTORY_NAME = "humble_html_reports"
+        def build_header(test_class_name)
+          "<h1>Testing class: #{test_class_name} (by HumbleUnit)</h1>"
+        end
+
+
+        def directory_name
+          "humble_html_reports"
+        end
+
+        def report_ext
+          ".html"
+        end
 
         class HtmlBuilder
           attr_reader :html
 
           def build(messages, stats)
             build_header
-            build_table messages
+            build_messages messages
             build_stats stats
             build_footer
           end
@@ -28,7 +40,7 @@ module Test
 
           def build_stats(stats)
             @html += <<-HTML_STATS
-              <div class="#{HtmlBuilder.css_color_class(stats.all_passed?)}">STATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}</div>
+              <h3 class="#{HtmlBuilder.css_color_class(stats.all_passed?)}">TESTING STATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}</h3>
             HTML_STATS
           end
 
@@ -46,7 +58,7 @@ module Test
             HTML_HEADER
           end
 
-          def build_table(messages)
+          def build_messages(messages)
             build_table_header
             build_table_body messages
             build_table_footer
@@ -54,7 +66,7 @@ module Test
 
           def build_table_header
             @html += <<-HTML_TABLE_HEADER
-            <table border="1">
+            <table style="width: 100%" border="1">
               <thead>
                 <tr>
                   <th>Status</th>
@@ -99,25 +111,10 @@ module Test
 
         def build_html(messages, stats)
           builder = HtmlBuilder.new
-          builder.build messages, stats
+          builder.build order_messages(messages), stats
           builder.html
         end
 
-        def create_report_directory
-          unless File.directory? DIRECTORY_NAME
-            FileUtils.mkdir_p DIRECTORY_NAME
-          end
-        end
-
-        def write_content_to_file html
-          File.open(filename, "w") do |file|
-            file.write(html)
-          end
-        end
-
-        def filename
-          File.join(DIRECTORY_NAME, "humble_report_#{DateTime.now.strftime("%Y%m%d_%H%M%S%3N")}.html")
-        end
       end
     end
   end

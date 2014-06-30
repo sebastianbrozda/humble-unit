@@ -18,7 +18,8 @@ module Test
             testing_class.send(:include, Test::HumbleUnit::Runners::TestMethodRunner)
             instance = testing_class.new
             instance.run_test_methods
-            output.flush instance.messages, instance.stats
+
+            output.flush testing_class.name, instance.messages, instance.stats
           end
         end
       end

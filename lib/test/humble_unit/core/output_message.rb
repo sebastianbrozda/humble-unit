@@ -17,7 +17,7 @@ module Test
         end
 
         def error
-          @pass ? "" : "!#{@error}!"
+          @pass ? "-" : "!#{@error}!"
         end
 
         def source_location_file

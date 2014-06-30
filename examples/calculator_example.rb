@@ -18,9 +18,8 @@ class CalculatorTests1 < Test::HumbleUnit::TestCase
   end
 
   def test_adding_1
-    expect(6).to(be_eq(@calc.add(2, 3)))
+    expect(@calc.add(2, 3)).to(be_eq(6))
   end
-
 end
 
 
@@ -34,9 +33,9 @@ class CalculatorTests2 < Test::HumbleUnit::TestCase
   end
 
   def test_adding_2
-    expect(6).to(be_eq(@calc.add(2, 4)))
+    expect(@calc.add(2, 4)).to(be_eq(6))
   end
-
 end
+
 
 

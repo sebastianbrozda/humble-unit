@@ -4,15 +4,25 @@ module Test
       class FileOutput < BaseOutput
         require 'fileutils'
 
-        def flush(messages, stats)
-          content = build_content(messages, stats)
+        def flush(test_class_name, messages, stats)
+          content = build_header(test_class_name)
+          content += build_content(messages, stats)
           create_report_directory
-          write_content_to_file content
+          write_content_to_file test_class_name, content
         end
 
         private
+        def build_header(test_class_name)
+          "Testing class: #{test_class_name} (by HumbleUnit)"
+        end
 
-        DIRECTORY_NAME = "humble_file_reports"
+        def directory_name
+          "humble_file_reports"
+        end
+
+        def report_ext
+          ".txt"
+        end
 
         def build_content(messages, stats)
           content = build_messages messages
@@ -22,31 +32,16 @@ module Test
 
         def build_messages(messages)
           content = ''
-          messages.each do |m|
+          order_messages(messages).each do |m|
             content += "\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
           end
           content
         end
 
         def build_stats(stats)
-          "\nSTATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}"
+          "\nTESTING STATUS#{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}"
         end
 
-        def create_report_directory
-          unless File.directory? DIRECTORY_NAME
-            FileUtils.mkdir_p DIRECTORY_NAME
-          end
-        end
-
-        def write_content_to_file content
-          File.open(filename, "w") do |file|
-            file.write(content)
-          end
-        end
-
-        def filename
-          File.join(DIRECTORY_NAME, "humble_report_#{DateTime.now.strftime("%Y%m%d_%H%M%S%3N")}.txt")
-        end
       end
     end
   end
