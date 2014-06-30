@@ -42,18 +42,19 @@ end
 
 running
 ===================
-raw console output:
+```
+#raw console output:
 ruby filename.rb
 
-with defined output:
+#with defined output:
 ruby filename.rb -o [console|file|html]
 
-run all tests from dictionary:
-
+#run all tests from directory:
 rake test:all["examples"]
 
-rake test:all["examples", output_type] => rake test:all["examples", "html"]
-
+rake test:all["examples", output_type] 
+rake test:all["examples", "html"]
+```
 screens
 ==================
 console output:
