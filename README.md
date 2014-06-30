@@ -56,8 +56,11 @@ rake test:all["examples", output_type] => rake test:all["examples", "html"]
 
 screens
 ==================
-
+console output:
 ![alt tag](http://sebastianbrozda.com/humble/console-output.png?v=2)
+
+html output:
+![alt tag](http://sebastianbrozda.com/humble/html-output.png?v=2)
 
 
 
