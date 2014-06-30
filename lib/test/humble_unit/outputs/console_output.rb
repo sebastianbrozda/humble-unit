@@ -18,7 +18,7 @@ module Test
           printf "%-10s: %-20s\n", "Passed", stats.passed_count
           printf "%-10s: %-20s\n", "Failed", stats.failed_count
           printf "%-10s: %-20s\n", "Tests", stats.number_of_tests
-          printf "%-10s: %-20s\n", "Run at", stats.time
+          printf "%-10s: %-20s\n", "At", stats.time
           printf "\n"
         end
 
