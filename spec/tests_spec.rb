@@ -14,6 +14,14 @@ class Tests < Test::Unit::TestCase
     assert_raise(Test::HumbleUnit::Errors::AssertionError) { expect(5).to(be_eq(6)) }
   end
 
+  def test_eq_delta
+    assert_nothing_raised { expect(6.05).to(be_eq(6.055, 0.005)) }
+  end
+
+  def test_eq_delta_fails
+    assert_raise(Test::HumbleUnit::Errors::AssertionError) { expect(6.01).to(be_eq(6.0111, 0.001)) }
+  end
+
   def test_greater
     assert_nothing_raised { expect(10).to(be_greater(4)) }
   end

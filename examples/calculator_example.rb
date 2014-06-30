@@ -32,6 +32,12 @@ class CalculatorTests1 < Test::HumbleUnit::TestCase
   def test_adding_4
     expect(@calc.add(2, 3)).to(be_eq(5))
   end
+
+  def test_adding_5
+    expect(5.011).to(be_eq(5.01, 0.0001))
+  end
+
+
 end
 
 

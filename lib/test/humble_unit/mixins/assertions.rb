@@ -15,8 +15,8 @@ module Test
           raise Errors::AssertionError if result
         end
 
-        def be_eq val
-          return if val != @expected_val
+        def be_eq val, delta = 0
+          return if (val.to_f - @expected_val.to_f).abs > delta.to_f
           true
         end
 
@@ -55,9 +55,12 @@ module Test
 
         private
         def error_message
-          "expected #{@expected_val} to #{@assertion} but it was #{@current_val}"
+          "expected #{@expected_val}#{delta_error_message} to #{@assertion} but it was #{@current_val}"
         end
 
+        def delta_error_message
+          " (delta: #{@delta})" if @delta && @delta > 0
+        end
       end
 
       module Assertions
@@ -66,7 +69,7 @@ module Test
             method = instance_method name
 
             define_method name do |*args, &block|
-              instance_exec [args[0], name], &before_block
+              instance_exec [args[0], args[1], name], &before_block
               method.bind(self).(*args, &block)
             end
           end
@@ -77,7 +80,7 @@ module Test
         end
 
         before(*assert_methods) do |args|
-          @current_val, @assertion = args
+          @current_val, @delta, @assertion = args
         end
 
         private_class_method :assert_methods
