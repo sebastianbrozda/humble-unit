@@ -40,8 +40,18 @@ module Test
 
           def build_stats(stats)
             @html += <<-HTML_STATS
-              <h3 class="#{HtmlBuilder.css_color_class(stats.all_passed?)}">TESTING STATUS: #{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}</h3>
+              <h3 class="#{HtmlBuilder.css_color_class(stats.all_passed?)}">
+                Test result: #{test_result(stats)}<br/>
+                Passed: #{stats.passed_count}<br/>
+                Failed: #{stats.failed_count}<br/>
+                Tests: #{stats.number_of_tests}<br/>
+                At: #{stats.time}</h3>
             HTML_STATS
+          end
+
+          def test_result(stats)
+            percentage = "(#{stats.percentage}/100.0%)"
+            stats.all_passed? ? "YES #{percentage}" : "NO #{percentage}"
           end
 
           def build_header
@@ -71,8 +81,8 @@ module Test
                 <tr>
                   <th>Status</th>
                   <th>Method</th>
+                  <th>Error</th>
                   <th>Source location</th>
-                  <th>Error msg</th>
                 </tr>
               </thead>
             HTML_TABLE_HEADER
@@ -84,8 +94,8 @@ module Test
               <tr class="#{HtmlBuilder.css_color_class(m.pass)}">
                 <td>#{m.status}</td>
                 <td>#{m.method_name}</td>
-                <td>#{m.source_location_file}:#{m.source_location_line_number}</td>
                 <td>#{m.error}</td>
+                <td>#{m.source_location_file}:#{m.source_location_line_number}</td>
               </tr>
               HTML_TABLE_ROW
             end
