@@ -32,6 +32,7 @@ class ExampleTests < Test::HumbleUnit::TestCase
 
   def test_example
     expect(5).to(be_eq(5))                  # pass
+    expect(5.01).to(be_eq(5.011, 0.01))     # pass (delta)
     expect(5).to(be_greater(5))             # fail
     expect(5).to(be_greater_or_equal(5))    # pass
     expect(5).to(be_less(5))                # fail
