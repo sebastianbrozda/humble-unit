@@ -33,13 +33,23 @@ module Test
         def build_messages(messages)
           content = ''
           order_messages(messages).each do |m|
-            content += "\n#{m.status}: #{m.method_name} (#{m.source_location_file}:#{m.source_location_line_number}) #{m.error}"
+            content += "\n#{m.status}:\t#{m.method_name}\t#{m.error}\t#{m.source_location_file}:#{m.source_location_line_number}"
           end
           content
         end
 
         def build_stats(stats)
-          "\nTESTING STATUS#{stats.all_passed?} | Succeed: #{stats.passed_count} / Failed: #{stats.failed_count} | Tests: #{stats.number_of_tests} at #{stats.time}"
+          content = "\nTest result: #{test_result(stats)}"
+          content << "\nPassed: #{stats.passed_count}"
+          content << "\nFailed: #{stats.failed_count}"
+          content << "\nTests: #{stats.number_of_tests}"
+          content << "\nAt: #{stats.time}"
+          content
+        end
+
+        def test_result(stats)
+          percentage = "(#{stats.percentage}/100.0%)"
+          stats.all_passed? ? "YES #{percentage}" : "NO #{percentage}"
         end
 
       end
