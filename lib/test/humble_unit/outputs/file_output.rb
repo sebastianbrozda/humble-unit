@@ -7,21 +7,22 @@ module Test
         def flush(test_class_name, messages, stats)
           content = build_header(test_class_name)
           content += build_content(messages, stats)
+
           create_report_directory
           write_content_to_file test_class_name, content
         end
 
         private
-        def build_header(test_class_name)
-          "Testing class: #{test_class_name} (by HumbleUnit)"
-        end
-
         def directory_name
           "humble_file_reports"
         end
 
         def report_ext
           ".txt"
+        end
+
+        def build_header(test_class_name)
+          "Testing class: #{test_class_name} (by HumbleUnit)"
         end
 
         def build_content(messages, stats)

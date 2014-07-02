@@ -5,19 +5,19 @@ module Test
         require 'fileutils'
 
         def flush(test_class_name, messages, stats)
-          html = build_header test_class_name
-          html += build_html(messages, stats)
+          content = build_header test_class_name
+          content += build_html(messages, stats)
+
           create_report_directory
-          write_content_to_file test_class_name, html
+          write_content_to_file test_class_name, content
         end
 
-        private
-
+        protected
         def build_header(test_class_name)
           "<h1>Testing class: #{test_class_name} (by HumbleUnit)</h1>"
         end
 
-
+        private
         def directory_name
           "humble_html_reports"
         end

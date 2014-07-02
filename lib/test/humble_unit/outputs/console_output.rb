@@ -3,11 +3,17 @@ module Test
     module Outputs
       class ConsoleOutput < BaseOutput
         def flush(test_class_name, messages, stats)
+          flush_header test_class_name
           flush_messages test_class_name, messages
           flush_stats stats
         end
 
         private
+        def flush_header test_class_name
+          printf "--=== Test class: #{test_class_name} ===---\n".to_brown
+          printf "%-10s %-20s %-51s %s\n", "Status", "Method name", "Error", "Source location"
+        end
+
         def flush_messages(test_class_name, messages)
           flush_header test_class_name
           flush_content messages
@@ -20,13 +26,6 @@ module Test
           printf "%-10s: %-20s\n", "Tests", stats.number_of_tests
           printf "%-10s: %-20s\n", "At", stats.time
           printf "\n"
-        end
-
-        private
-
-        def flush_header test_class_name
-          printf "--=== Test class: #{test_class_name} ===---\n".to_brown
-          printf "%-10s %-20s %-51s %s\n", "Status", "Method name", "Error", "Source location"
         end
 
         def flush_content(messages)
